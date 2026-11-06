@@ -163,29 +163,6 @@ cần phân biệt ý nghĩa và ngữ cảnh, hoặc khi nội dung spam cố t
 -   Vì vậy, mô hình có thể không nhận diện được các dấu hiệu spam quen
     thuộc và dự đoán nhầm tin nhắn thành `ham`.
 
-## 3. Kết luận
-
-Hai ví dụ cho thấy hai hạn chế khác nhau của BoW:
-
-1.  **Hạn chế về ngữ cảnh:** dễ nhầm một tin nhắn đang trích dẫn hoặc
-    bình luận về spam thành spam thực sự.
-2.  **Hạn chế về biến thể từ ngữ:** dễ bỏ sót spam khi từ khóa bị viết
-    sai lệch có chủ đích hoặc không xuất hiện trong từ điển.
-
-Để cải thiện khả năng nhận diện các trường hợp khó, có thể cân nhắc bổ
-sung đặc trưng n-gram ký tự, chuẩn hóa một số biến thể Leetspeak, hoặc
-sử dụng biểu diễn ngữ nghĩa bằng mô hình encoder. Các cải tiến này cần
-được đánh giá trên cùng tập case khó để xác nhận hiệu quả.
-
-## 4. Lưu ý về cách diễn giải số liệu
-
-Các tỷ lệ theo từng nhóm case và điểm F1 nêu trên được giữ theo kết quả
-thí nghiệm được cung cấp. Cần xác nhận cách tính metric và số lượng mẫu
-của từng nhóm trước khi khái quát hóa kết quả. Đặc biệt, nếu một nhóm có
-ít mẫu, tỷ lệ 0% hoặc 17% có thể biến động mạnh khi chỉ thay đổi một vài
-dự đoán.
-
-
 ## 5. Thử thách cá nhân
 
 *Đề theo SEED của bạn, cách làm, kết quả, giải thích.*
