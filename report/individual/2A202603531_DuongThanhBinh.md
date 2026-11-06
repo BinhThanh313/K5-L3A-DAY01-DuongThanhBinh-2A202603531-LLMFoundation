@@ -165,8 +165,6 @@ cần phân biệt ý nghĩa và ngữ cảnh, hoặc khi nội dung spam cố t
 
 ## 5. Thử thách cá nhân
 
-*Đề theo SEED của bạn, cách làm, kết quả, giải thích.*
-
 ## 1. Cách Làm (Ý Tưởng & Phương Pháp)
 
 * **Thiết lập bài toán:** Khởi tạo tính ngẫu nhiên với `SEED = 32` và giữ cố định số lượng 30 epochs cho mọi lượt chạy để đảm bảo so sánh công bằng.
