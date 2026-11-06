@@ -10,49 +10,26 @@
 
 | Tệp | Có? |
 | --- | --- |
-| [`day01_lab.ipynb`](day01_lab.ipynb) — notebook đã chạy, còn output | ☐ |
-| [`lab1_report.json`](lab1_report.json) — do ô "Báo cáo cuối" sinh ra | ☐ |
-| [`hand_calc.jpg`](hand_calc.jpg) — ảnh tính tay có các bước | ☐ |
+| [`day01_lab.ipynb`](day01_lab.ipynb) — notebook đã chạy, còn output | ☑ |
+| [`lab1_report.json`](lab1_report.json) — do ô "Báo cáo cuối" sinh ra | ☑ |
+| [`hand_calc.jpg`](hand_calc.jpg) — ảnh tính tay có các bước | ☑ |
 
 ## 2. Kết quả chính
+| Mô hình | Precision | Recall | F1 | F1 (SUB 40) | Train (s) | Tin/s (cả lô) | p50 (ms/tin) | p95 (ms/tin) | USD / 1k tin |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **1. BoW + LogReg**<br>(tự code) | 1.000 | 0.781 | 0.877 | 0.919 | 9.033 | 10162.879 | 0.044 | 0.104 | 0.0 |
+| **2. BoW + MLP**<br>(deep learning) | 1.000 | 0.886 | 0.939 | 0.947 | 10.195 | 29496.788 | 0.306 | 0.786 | 0.0 |
+| **3a. Encoder (MiniLM) + kNN** | 0.876 | 0.943 | 0.908 | 0.947 | 76.779 | 26.508 | 50.135 | 73.656 | 0.0 |
+| **3b. Encoder (MiniLM) + LogReg** | 0.980 | 0.943 | 0.961 | 0.974 | 77.247 | 36.432 | 26.877 | 39.472 | 0.0 |
+| **3c. Encoder (MiniLM) + MLP head** | 0.980 | 0.943 | 0.961 | 0.974 | 77.759 | 38.733 | 28.187 | 36.632 | 0.0 |
+| **4a. LLM nhỏ zero-shot** | 0.950 | 0.950 | 0.950 | 0.950 | 0.000 | 1.006 | 530.429 | 2697.880 | 0.0 |
+| **4b. LLM lớn zero-shot** | 0.950 | 0.950 | 0.950 | 0.950 | 0.000 | 1.283 | 294.661 | 2334.296 | 0.0 |
+| **4c. LLM nhỏ few-shot** | 0.950 | 0.950 | 0.950 | 0.950 | 0.000 | 0.549 | 2348.279 | 3561.040 | 0.0 |
 
-  -----------------------------------------------------------------------------------------------------
-  Mô hình        Precision   Recall       F1 F1 (SUB    Train   Tin/s (cả        p50        p95   USD /
-                                      (test)     40)      (s)         lô)   (ms/tin)   (ms/tin)  1k tin
-  ------------ ----------- -------- -------- ------- -------- ----------- ---------- ---------- -------
-  1\. BoW +          1.000    0.781    0.877   0.919    9.033   10162.879      0.044      0.104     0.0
-  LogReg (tự                                                                                    
-  code)                                                                                         
-
-  2\. BoW +          1.000    0.886    0.939   0.947   10.195   29496.788      0.306      0.786     0.0
-  MLP (deep                                                                                     
-  learning)                                                                                     
-
-  3a. Encoder        0.876    0.943    0.908   0.947   76.779      26.508     50.135     73.656     0.0
-  (MiniLM) +                                                                                    
-  kNN                                                                                           
-
-  3b. Encoder        0.980    0.943    0.961   0.974   77.247      36.432     26.877     39.472     0.0
-  (MiniLM) +                                                                                    
-  LogReg                                                                                        
-
-  3c. Encoder        0.980    0.943    0.961   0.974   77.759      38.733     28.187     36.632     0.0
-  (MiniLM) +                                                                                    
-  MLP head                                                                                      
-
-  4a. LLM nhỏ        0.950    0.950    0.950   0.950    0.000       1.006    530.429   2697.880     0.0
-  zero-shot                                                                                     
-
-  4b. LLM lớn        0.950    0.950    0.950   0.950    0.000       1.283    294.661   2334.296     0.0
-  zero-shot                                                                                     
-
-  4c. LLM nhỏ        0.950    0.950    0.950   0.950    0.000       0.549   2348.279   3561.040     0.0
-  few-shot                                                                                      
-  -----------------------------------------------------------------------------------------------------  
-• Hàng LLM chỉ đo trên SUB (40 tin) → so sánh chất lượng công bằng bằng cột 'F1 (SUB 40)'.
-• SUB chỉ 40 tin: 1 tin sai đổi F1 vài điểm. Chênh < ~0.05 F1 coi như HOÀ — đừng xếp hạng theo số lẻ.
-• Inference đo TỪ VĂN BẢN THÔ → NHÃN (gồm cả vectorize / encode). p50/p95 = gọi từng tin một, như một request thật.
-• train (s) của 3a/3b/3c = thời gian encoder MiniLM encode tập train (+ train đầu LogReg / MLP); LLM = 0 vì không train. Số đo phụ thuộc CPU/GPU của Colab.
+- Hàng LLM chỉ đo trên SUB (40 tin) → so sánh chất lượng công bằng bằng cột **'F1 (SUB 40)'**.
+- SUB chỉ 40 tin: 1 tin sai đổi F1 vài điểm. Chênh < ~0.05 F1 coi như HOÀ — đừng xếp hạng theo số lẻ.
+- Inference đo TỪ VĂN BẢN THÔ → NHÃN (gồm cả vectorize / encode). p50/p95 = gọi từng tin một, như một request thật.
+- train (s) của 3a/3b/3c = thời gian encoder MiniLM encode tập train (+ train đầu LogReg / MLP); LLM = 0 vì không train. Số đo phụ thuộc CPU/GPU của Colab.
 
 ## 3. Dự đoán và thực tế
 
@@ -163,32 +140,7 @@ cần phân biệt ý nghĩa và ngữ cảnh, hoặc khi nội dung spam cố t
 -   Vì vậy, mô hình có thể không nhận diện được các dấu hiệu spam quen
     thuộc và dự đoán nhầm tin nhắn thành `ham`.
 
-## 3. Kết luận
-
-Hai ví dụ cho thấy hai hạn chế khác nhau của BoW:
-
-1.  **Hạn chế về ngữ cảnh:** dễ nhầm một tin nhắn đang trích dẫn hoặc
-    bình luận về spam thành spam thực sự.
-2.  **Hạn chế về biến thể từ ngữ:** dễ bỏ sót spam khi từ khóa bị viết
-    sai lệch có chủ đích hoặc không xuất hiện trong từ điển.
-
-Để cải thiện khả năng nhận diện các trường hợp khó, có thể cân nhắc bổ
-sung đặc trưng n-gram ký tự, chuẩn hóa một số biến thể Leetspeak, hoặc
-sử dụng biểu diễn ngữ nghĩa bằng mô hình encoder. Các cải tiến này cần
-được đánh giá trên cùng tập case khó để xác nhận hiệu quả.
-
-## 4. Lưu ý về cách diễn giải số liệu
-
-Các tỷ lệ theo từng nhóm case và điểm F1 nêu trên được giữ theo kết quả
-thí nghiệm được cung cấp. Cần xác nhận cách tính metric và số lượng mẫu
-của từng nhóm trước khi khái quát hóa kết quả. Đặc biệt, nếu một nhóm có
-ít mẫu, tỷ lệ 0% hoặc 17% có thể biến động mạnh khi chỉ thay đổi một vài
-dự đoán.
-
-
 ## 5. Thử thách cá nhân
-
-*Đề theo SEED của bạn, cách làm, kết quả, giải thích.*
 
 ## 1. Cách Làm (Ý Tưởng & Phương Pháp)
 
